@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --font-luxury: 'Cinzel', Georgia, serif;
+    --font-ui: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --radius-card: 16px;
+    --radius-btn: 8px;
+    --radius-pill: 30px;
+    --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* TEMA OSCURO (Por defecto) - Obsidiana & Oro Champagne */
+[data-theme="dark"], body.theme-dark {
+    --bg-primary: #090B0E;
+    --bg-secondary: #101318;
+    --bg-card: rgba(18, 22, 28, 0.75);
+    --bg-card-hover: rgba(28, 34, 44, 0.85);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --border-accent: rgba(197, 168, 128, 0.45);
+    --text-primary: #F8F9FB;
+    --text-secondary: #A0AAB8;
+    --text-muted: #626D7C;
+    --accent-gold: #C5A880;
+    --accent-gold-hover: #D8BD97;
+    --accent-glow: rgba(197, 168, 128, 0.25);
+    --shadow-card: 0 12px 35px rgba(0, 0, 0, 0.5);
+    --table-header-bg: rgba(12, 15, 20, 0.7);
+}
+
+/* TEMA CLARO - Perla Alabastro & Oro Viejo */
+[data-theme="light"], body.theme-light {
+    --bg-primary: #F7F8FA;
+    --bg-secondary: #FFFFFF;
+    --bg-card: rgba(255, 255, 255, 0.85);
+    --bg-card-hover: rgba(255, 255, 255, 1);
+    --border-glass: rgba(15, 23, 42, 0.08);
+    --border-accent: rgba(163, 126, 76, 0.5);
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #94A3B8;
+    --accent-gold: #A37E4C;
+    --accent-gold-hover: #8C6A3B;
+    --accent-glow: rgba(163, 126, 76, 0.2);
+    --shadow-card: 0 10px 30px rgba(15, 23, 42, 0.06);
+    --table-header-bg: rgba(241, 245, 249, 0.8);
+}
