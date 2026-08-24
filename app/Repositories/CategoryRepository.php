@@ -17,15 +17,34 @@ class CategoryRepository
 
     public function getAllActive(): array
     {
-        $stmt = $this->db->query("SELECT id, name, slug, description, image_url FROM categories WHERE status = 'ACTIVE' ORDER BY name ASC");
+        $stmt = $this->db->query("SELECT id, name, slug, description, image_url, status FROM categories WHERE status = 'ACTIVE' ORDER BY name ASC");
         return $stmt->fetchAll();
     }
 
-    public function findBySlug(string $slug): ?array
+    public function getAllAdmin(): array
     {
-        $stmt = $this->db->prepare("SELECT * FROM categories WHERE slug = :slug AND status = 'ACTIVE' LIMIT 1");
-        $stmt->execute(['slug' => $slug]);
-        $result = $stmt->fetch();
-        return $result ?: null;
+        $stmt = $this->db->query("SELECT c.*, COUNT(p.id) AS products_count FROM categories c LEFT JOIN products p ON c.id = p.category_id AND p.status != 'ARCHIVED' GROUP BY c.id ORDER BY c.name ASC");
+        return $stmt->fetchAll();
+    }
+
+    public function findById(int $id): mixed
+    {
+        $stmt = $this->db->prepare("SELECT * FROM categories WHERE id = :id LIMIT 1");
+        $stmt->execute(['id' => $id]);
+        $res = $stmt->fetch();
+        return $res ?: null;
+    }
+
+    public function create(string $name, string $description = ''): bool
+    {
+        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name), '-'));
+        $stmt = $this->db->prepare("INSERT INTO categories (name, slug, description, status) VALUES (:name, :slug, :desc, 'ACTIVE')");
+        return $stmt->execute(['name' => trim($name), 'slug' => $slug, 'desc' => trim($description)]);
+    }
+
+    public function delete(int $id): bool
+    {
+        $stmt = $this->db->prepare("UPDATE categories SET status = 'INACTIVE' WHERE id = :id");
+        return $stmt->execute(['id' => $id]);
     }
 }

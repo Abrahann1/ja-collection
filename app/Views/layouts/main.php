@@ -5,33 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($title ?? 'J.A COLLECTION | Premium Automotive Diecast') ?></title>
     <link rel="stylesheet" href="/assets/css/variables.css">
-    <link rel="stylesheet" href="/assets/css/base.css">
-    <link rel="stylesheet" href="/assets/css/layout.css">
-    <link rel="stylesheet" href="/assets/css/components.css">
-    <link rel="stylesheet" href="/assets/css/admin.css">
-    <?php if (isset($extraCss)): ?>
-        <link rel="stylesheet" href="/assets/css/<?= htmlspecialchars($extraCss) ?>.css">
-    <?php endif; ?>
+    <link rel="stylesheet" href="/assets/css/luxury-store.css">
     <script src="/assets/js/theme.js"></script>
     <script src="/assets/js/toast.js"></script>
-    <style>
-        body { background-color: var(--bg-primary); color: var(--text-primary); transition: background-color 0.35s, color 0.35s; }
-        .header-main { background: var(--bg-secondary); border-bottom: 1px solid var(--border-glass); }
-        .logo-brand { font-family: var(--font-luxury); letter-spacing: 3px; color: var(--text-primary); text-decoration: none; font-weight: 700; }
-        .logo-brand span { color: var(--accent-gold); }
-    </style>
 </head>
 <body>
     <header class="header-main">
         <div class="container header-container">
             <a href="/" class="logo-brand">J.A <span>COLLECTION</span></a>
+            
             <nav class="nav-desktop" aria-label="Navegación principal">
                 <a href="/" class="nav-link">Inicio</a>
                 <a href="/shop" class="nav-link">Catálogo</a>
-                <a href="/shop?cat=jdm-specials" class="nav-link">JDM</a>
-                <a href="/shop?cat=supercars" class="nav-link">Supercars</a>
+                <a href="/shop?category=jdm-specials" class="nav-link">JDM Specials</a>
+                <a href="/shop?category=supercars" class="nav-link">Supercars</a>
+                <a href="/shop?category=premium" class="nav-link">Premium</a>
             </nav>
-            <div class="nav-actions" style="display: flex; align-items: center; gap: 1rem;">
+
+            <div class="nav-actions">
+                <!-- Switch Deslizable Sol / Luna -->
                 <button class="theme-switch is-dark" onclick="toggleTheme()" aria-label="Cambiar tema" title="Cambiar tema">
                     <span class="switch-thumb">
                         <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -50,10 +42,10 @@
                         </svg>
                     </span>
                 </button>
-                <a href="/cart" class="btn btn-outline" style="border-radius: var(--radius-pill); font-size: 0.8rem; padding: 0.5rem 1rem;">
-                    Bolsa (<span id="cart-count-badge">0</span>)
+
+                <a href="/cart" class="btn-cart-nav">
+                    🛒 Carrito (<span id="cart-count-badge">0</span>)
                 </a>
-                <a href="/admin/dashboard" class="btn btn-outline" style="font-size: 0.75rem; padding: 0.5rem 0.9rem; border-radius: var(--radius-pill);">Admin</a>
             </div>
         </div>
     </header>
@@ -62,10 +54,25 @@
         <?= $content ?>
     </main>
 
-    <footer class="footer-main" style="background: var(--bg-secondary); border-top: 1px solid var(--border-glass); padding: 3.5rem 0; margin-top: 4rem;">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.85rem;">
-            <p>&copy; <?= date('Y') ?> J.A COLLECTION. Todos los derechos reservados.</p>
-            <p style="font-family: var(--font-luxury); letter-spacing: 2px;">Fundado por Josuee Abrahan</p>
+    <footer style="background: var(--bg-secondary); border-top: 1px solid var(--border-glass); padding: 3.5rem 0 2.5rem; margin-top: 5rem;">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 2rem; margin-bottom: 2rem; flex-wrap: wrap; gap: 1.5rem;">
+                <div>
+                    <span class="logo-brand">J.A <span>COLLECTION</span></span>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.3rem;">
+                        Curaduría y distribución exclusiva de modelos automotrices diecast a escala 1:64.
+                    </p>
+                </div>
+                <div style="display: flex; gap: 2rem; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px;">
+                    <a href="/shop" style="color: var(--text-secondary);">Catálogo</a>
+                    <a href="/login" style="color: var(--text-secondary);">Mi Cuenta</a>
+                    <a href="/admin/login" style="color: var(--text-muted); opacity: 0.5;" title="Acceso al Sistema">🔒 Acceso Privado</a>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.8rem;">
+                <p>&copy; <?= date('Y') ?> J.A COLLECTION. Todos los derechos reservados.</p>
+                <p style="font-family: var(--font-luxury); letter-spacing: 2px;">Fundado por Josuee Abrahan</p>
+            </div>
         </div>
     </footer>
 

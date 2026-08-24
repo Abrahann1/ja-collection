@@ -13,11 +13,13 @@
         <div class="sidebar-brand">J.A <span>COLLECTION</span></div>
         <nav style="flex: 1; display: flex; flex-direction: column;">
             <ul class="sidebar-menu">
-                <li><a href="/admin/dashboard" class="sidebar-link active">Dashboard</a></li>
-                <li><a href="/admin/products" class="sidebar-link">Productos</a></li>
-                <li><a href="/admin/inventory" class="sidebar-link">Inventario</a></li>
-                <li><a href="/admin/orders" class="sidebar-link">Pedidos</a></li>
-                <li><a href="/admin/import" class="sidebar-link">Importar Excel</a></li>
+                <li><a href="/admin/dashboard" class="sidebar-link <?= ($_SERVER['REQUEST_URI'] ?? '') === '/admin/dashboard' ? 'active' : '' ?>">Dashboard</a></li>
+                <li><a href="/admin/orders" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/orders') ? 'active' : '' ?>">Pedidos</a></li>
+                <li><a href="/admin/products" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/products') ? 'active' : '' ?>">Productos</a></li>
+                <li><a href="/admin/inventory" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/inventory') ? 'active' : '' ?>">Inventario & Kardex</a></li>
+                <li><a href="/admin/brands" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/brands') ? 'active' : '' ?>">Marcas</a></li>
+                <li><a href="/admin/categories" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/categories') ? 'active' : '' ?>">Categorías</a></li>
+                <li><a href="/admin/import" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/import') ? 'active' : '' ?>">Importar Excel</a></li>
             </ul>
             <ul class="sidebar-menu" style="margin-top: auto;">
                 <li><a href="/" target="_blank" class="sidebar-link">Ver Tienda &nearr;</a></li>
@@ -32,13 +34,11 @@
                 <span style="display: inline-block; font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 0.35rem;">
                     &bull; Control de Boutique Automotriz
                 </span>
-                <h1>Panel de Control</h1>
+                <h1><?= htmlspecialchars($title ?? 'Panel de Control') ?></h1>
             </div>
             <div style="display: flex; align-items: center; gap: 1.25rem;">
-                <!-- Switch Vectorial Morphing -->
                 <button class="theme-switch is-dark" onclick="toggleTheme()" aria-label="Cambiar tema" title="Cambiar tema">
                     <span class="switch-thumb">
-                        <!-- SVG Sol (Modo Claro) -->
                         <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="4"></circle>
                             <path d="M12 2v2"></path>
@@ -50,9 +50,8 @@
                             <path d="m6.34 17.66-1.41 1.41"></path>
                             <path d="m19.07 4.93-1.41 1.41"></path>
                         </svg>
-                        <!-- SVG Luna (Modo Oscuro) -->
                         <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                            <path d="M12 3a6 6 0 0 0 9 9 9 0 1 1-9-9Z"></path>
                         </svg>
                     </span>
                 </button>

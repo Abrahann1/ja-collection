@@ -32,10 +32,32 @@ class ProductController
             return;
         }
 
+        // Obtener modelos relacionados para la sección de recomendaciones
+        $relatedData = $this->productService->listCatalog([
+            'category' => $product['category_slug'] ?? ''
+        ], 1, 8);
+
+        $relatedProducts = array_filter($relatedData['items'], function ($item) use ($product) {
+            return (int)$item['id'] !== (int)$product['id'];
+        });
+        $relatedProducts = array_slice($relatedProducts, 0, 4);
+
+        if (count($relatedProducts) < 4) {
+            $featuredData = $this->productService->listCatalog(['featured' => 1], 1, 8);
+            foreach ($featuredData['items'] as $item) {
+                if ((int)$item['id'] !== (int)$product['id'] && !in_array($item['id'], array_column($relatedProducts, 'id'), true)) {
+                    $relatedProducts[] = $item;
+                    if (count($relatedProducts) >= 4) {
+                        break;
+                    }
+                }
+            }
+        }
+
         View::render('pages.product', [
             'title' => $product['name'] . ' (Escala ' . $product['scale'] . ') | J.A COLLECTION',
-            'extraCss' => 'product',
-            'product' => $product
+            'product' => $product,
+            'relatedProducts' => $relatedProducts
         ]);
     }
 }
