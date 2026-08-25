@@ -1,3 +1,7 @@
+<?php
+use App\Core\Session;
+$currentUser = Session::get('user');
+?>
 <!DOCTYPE html>
 <html lang="es" data-theme="dark">
 <head>
@@ -43,6 +47,34 @@
                     </span>
                 </button>
 
+                <!-- Menú de Usuario / Botón Iniciar Sesión -->
+                <?php if ($currentUser): ?>
+                    <div class="user-dropdown-wrap">
+                        <button type="button" class="user-pill-btn" onclick="toggleUserDropdown(event)">
+                            <span class="user-avatar-circle"><?= strtoupper(substr($currentUser['name'], 0, 1)) ?></span>
+                            <span><?= htmlspecialchars($currentUser['name']) ?></span>
+                            <span style="font-size: 0.65rem; color: var(--accent-gold);">▼</span>
+                        </button>
+                        <div class="user-dropdown-menu" id="user-dropdown-panel">
+                            <div style="padding: 0.85rem 1.2rem; border-bottom: 1px solid var(--border-glass);">
+                                <strong style="color: var(--text-primary); display:block; font-size: 0.85rem;"><?= htmlspecialchars($currentUser['name'] . ' ' . $currentUser['lastname']) ?></strong>
+                                <span style="font-size: 0.72rem; color: var(--text-muted);"><?= htmlspecialchars($currentUser['email']) ?></span>
+                            </div>
+                            <a href="/account" class="dropdown-item-link">📦 Mis Pedidos</a>
+                            <a href="/account" class="dropdown-item-link">📍 Mis Datos de Envío</a>
+                            <?php if (in_array($currentUser['role'] ?? '', ['ADMIN', 'STAFF'], true)): ?>
+                                <a href="/admin/dashboard" class="dropdown-item-link" style="color: var(--accent-gold); font-weight: 700;">⚡ Panel Administrativo</a>
+                            <?php endif; ?>
+                            <a href="/logout" class="dropdown-item-link" style="color: #E57373; border-top: 1px solid var(--border-glass);">🚪 Cerrar Sesión</a>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <a href="/login" class="btn-login-nav">
+                        👤 Iniciar Sesión
+                    </a>
+                <?php endif; ?>
+
+                <!-- Carrito de Compras -->
                 <a href="/cart" class="btn-cart-nav">
                     🛒 Carrito (<span id="cart-count-badge">0</span>)
                 </a>
@@ -78,5 +110,17 @@
 
     <script src="/assets/js/api.js"></script>
     <script src="/assets/js/cart.js"></script>
+    <script>
+    function toggleUserDropdown(e) {
+        e.stopPropagation();
+        const panel = document.getElementById("user-dropdown-panel");
+        if (panel) panel.classList.toggle("show");
+    }
+
+    document.addEventListener("click", () => {
+        const panel = document.getElementById("user-dropdown-panel");
+        if (panel) panel.classList.remove("show");
+    });
+    </script>
 </body>
 </html>

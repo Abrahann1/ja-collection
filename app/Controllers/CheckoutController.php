@@ -7,6 +7,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Core\View;
 use App\Core\Session;
+use App\Helpers\SettingsHelper;
 use App\Services\OrderService;
 
 class CheckoutController
@@ -21,23 +22,33 @@ class CheckoutController
     public function index(Request $request): void
     {
         $user = Session::get('user');
+        $settings = SettingsHelper::all();
+
         View::render('pages.checkout', [
             'title' => 'Finalizar Pedido | J.A COLLECTION',
-            'user' => $user
+            'user' => $user,
+            'settings' => $settings
         ]);
     }
 
     public function process(Request $request): void
     {
+        $settings = SettingsHelper::all();
+        $dept = (string)$request->body('shipping_department', 'Cusco');
+        
+        // Flete dinámico según configuración de la BD
+        $isLima = in_array(strtolower(trim($dept)), ['lima', 'callao'], true);
+        $shippingCost = $isLima ? (float)$settings['shipping_lima'] : (float)$settings['shipping_provincia'];
+
         $customerData = [
             'customer_name' => (string)$request->body('customer_name'),
             'customer_email' => (string)$request->body('customer_email'),
             'customer_phone' => (string)$request->body('customer_phone'),
-            'shipping_department' => (string)$request->body('shipping_department'),
+            'shipping_department' => $dept,
             'shipping_province' => (string)$request->body('shipping_province'),
             'shipping_district' => (string)$request->body('shipping_district'),
             'shipping_address' => (string)$request->body('shipping_address'),
-            'shipping_cost' => (float)$request->body('shipping_cost', 15.00),
+            'shipping_cost' => $shippingCost,
             'payment_method' => (string)$request->body('payment_method', 'YAPE_PLIN'),
             'notes' => (string)$request->body('notes', '')
         ];
@@ -55,7 +66,8 @@ class CheckoutController
                 'title' => 'Finalizar Pedido | J.A COLLECTION',
                 'error' => $result['message'],
                 'data' => $customerData,
-                'user' => $user
+                'user' => $user,
+                'settings' => $settings
             ]);
             return;
         }
@@ -72,9 +84,12 @@ class CheckoutController
             Response::redirect('/');
         }
 
+        $settings = SettingsHelper::all();
+
         View::render('pages.order_success', [
             'title' => '¡Pedido Confirmado! #' . $orderNum . ' | J.A COLLECTION',
-            'order' => $order
+            'order' => $order,
+            'settings' => $settings
         ]);
     }
 }

@@ -17,9 +17,12 @@
                 <li><a href="/admin/orders" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/orders') ? 'active' : '' ?>">Pedidos</a></li>
                 <li><a href="/admin/products" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/products') ? 'active' : '' ?>">Productos</a></li>
                 <li><a href="/admin/inventory" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/inventory') ? 'active' : '' ?>">Inventario & Kardex</a></li>
+                <li><a href="/admin/customers" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/customers') ? 'active' : '' ?>">Clientes</a></li>
                 <li><a href="/admin/brands" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/brands') ? 'active' : '' ?>">Marcas</a></li>
                 <li><a href="/admin/categories" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/categories') ? 'active' : '' ?>">Categorías</a></li>
                 <li><a href="/admin/import" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/import') ? 'active' : '' ?>">Importar Excel</a></li>
+                <li><a href="/admin/export" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/export') ? 'active' : '' ?>">Exportar Datos</a></li>
+                <li><a href="/admin/settings" class="sidebar-link <?= str_starts_with($_SERVER['REQUEST_URI'] ?? '', '/admin/settings') ? 'active' : '' ?>">Configuración</a></li>
             </ul>
             <ul class="sidebar-menu" style="margin-top: auto;">
                 <li><a href="/" target="_blank" class="sidebar-link">Ver Tienda &nearr;</a></li>
@@ -51,7 +54,7 @@
                             <path d="m19.07 4.93-1.41 1.41"></path>
                         </svg>
                         <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 3a6 6 0 0 0 9 9 9 0 1 1-9-9Z"></path>
+                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
                         </svg>
                     </span>
                 </button>

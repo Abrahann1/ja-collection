@@ -8,6 +8,7 @@ use App\Controllers\ShopController;
 use App\Controllers\ProductController as PublicProductController;
 use App\Controllers\CartController;
 use App\Controllers\CheckoutController;
+use App\Controllers\AccountController;
 use App\Controllers\AuthController;
 use App\Controllers\Admin\AdminController;
 use App\Controllers\Admin\ProductController as AdminProductController;
@@ -15,8 +16,12 @@ use App\Controllers\Admin\BrandController as AdminBrandController;
 use App\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Controllers\Admin\InventoryController as AdminInventoryController;
 use App\Controllers\Admin\ImportController as AdminImportController;
+use App\Controllers\Admin\ExportController as AdminExportController;
 use App\Controllers\Admin\OrderController as AdminOrderController;
+use App\Controllers\Admin\CustomerController as AdminCustomerController;
+use App\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Middleware\AdminMiddleware;
+use App\Middleware\AuthMiddleware;
 
 /** @var App\Core\Router $router */
 
@@ -27,10 +32,15 @@ $router->get('/product', [PublicProductController::class, 'show']);
 $router->get('/product/{id}', [PublicProductController::class, 'show']);
 $router->get('/cart', [CartController::class, 'index']);
 
-// Checkout y Confirmación de Pedido
+// Checkout y Éxito
 $router->get('/checkout', [CheckoutController::class, 'index']);
 $router->post('/checkout', [CheckoutController::class, 'process']);
 $router->get('/orders/success', [CheckoutController::class, 'success']);
+
+// Portal Mi Cuenta
+$router->get('/account', [AccountController::class, 'index'], [AuthMiddleware::class]);
+$router->post('/account/profile', [AccountController::class, 'updateProfile'], [AuthMiddleware::class]);
+$router->post('/account/password', [AccountController::class, 'updatePassword'], [AuthMiddleware::class]);
 
 // Autenticación
 $router->get('/login', [AuthController::class, 'showLogin']);
@@ -43,9 +53,18 @@ $router->get('/admin/login', [AuthController::class, 'showAdminLogin']);
 $router->post('/admin/login', [AuthController::class, 'handleLogin']);
 $router->get('/admin/logout', [AuthController::class, 'adminLogout']);
 
-// Dashboard Administrativo Dinámico
+// Dashboard Administrativo
 $router->get('/admin/dashboard', [AdminController::class, 'dashboard'], [AdminMiddleware::class]);
 $router->get('/api/admin/dashboard/stats', [AdminController::class, 'liveStats'], [AdminMiddleware::class]);
+
+// Pedidos Admin
+$router->get('/admin/orders', [AdminOrderController::class, 'index'], [AdminMiddleware::class]);
+$router->get('/admin/orders/{id}', [AdminOrderController::class, 'show'], [AdminMiddleware::class]);
+$router->post('/admin/orders/{id}/status', [AdminOrderController::class, 'updateStatus'], [AdminMiddleware::class]);
+
+// Clientes Admin
+$router->get('/admin/customers', [AdminCustomerController::class, 'index'], [AdminMiddleware::class]);
+$router->post('/admin/customers/{id}/toggle', [AdminCustomerController::class, 'toggleStatus'], [AdminMiddleware::class]);
 
 // CRUD Productos
 $router->get('/admin/products', [AdminProductController::class, 'index'], [AdminMiddleware::class]);
@@ -76,7 +95,12 @@ $router->post('/admin/import/confirm', [AdminImportController::class, 'confirm']
 $router->get('/admin/import/cancel', [AdminImportController::class, 'cancel'], [AdminMiddleware::class]);
 $router->get('/admin/import/template', [AdminImportController::class, 'downloadTemplate'], [AdminMiddleware::class]);
 
-// Gestión de Pedidos Admin
-$router->get('/admin/orders', [AdminOrderController::class, 'index'], [AdminMiddleware::class]);
-$router->get('/admin/orders/{id}', [AdminOrderController::class, 'show'], [AdminMiddleware::class]);
-$router->post('/admin/orders/{id}/status', [AdminOrderController::class, 'updateStatus'], [AdminMiddleware::class]);
+// Exportación Contable
+$router->get('/admin/export', [AdminExportController::class, 'index'], [AdminMiddleware::class]);
+$router->get('/admin/export/products', [AdminExportController::class, 'exportProducts'], [AdminMiddleware::class]);
+$router->get('/admin/export/inventory', [AdminExportController::class, 'exportInventory'], [AdminMiddleware::class]);
+$router->get('/admin/export/orders', [AdminExportController::class, 'exportOrders'], [AdminMiddleware::class]);
+
+// Configuración Global
+$router->get('/admin/settings', [AdminSettingsController::class, 'index'], [AdminMiddleware::class]);
+$router->post('/admin/settings', [AdminSettingsController::class, 'save'], [AdminMiddleware::class]);

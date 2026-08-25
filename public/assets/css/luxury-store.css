@@ -9,7 +9,6 @@
     --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* TEMA OSCURO (Por defecto) */
 [data-theme="dark"], body.theme-dark {
     --bg-primary: #090B0E;
     --bg-secondary: #101318;
@@ -27,7 +26,6 @@
     --table-header-bg: rgba(12, 15, 20, 0.7);
 }
 
-/* TEMA CLARO */
 [data-theme="light"], body.theme-light {
     --bg-primary: #F7F8FA;
     --bg-secondary: #FFFFFF;
@@ -76,7 +74,9 @@ a {
     padding: 0 1.5rem;
 }
 
-/* HEADER */
+/* ======================================================
+   HEADER & NAVBAR
+====================================================== */
 .header-main {
     position: sticky;
     top: 0;
@@ -130,8 +130,104 @@ a {
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.85rem;
     flex-shrink: 0;
+}
+
+/* BOTÓN LOGIN DE CLIENTE */
+.btn-login-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: transparent;
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+    transition: var(--transition);
+}
+
+.btn-login-nav:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+    box-shadow: 0 0 12px var(--accent-glow);
+}
+
+/* MENÚ DESPLEGABLE DE USUARIO */
+.user-dropdown-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.user-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    padding: 0.4rem 0.95rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.user-pill-btn:hover {
+    border-color: var(--border-accent);
+}
+
+.user-avatar-circle {
+    width: 22px;
+    height: 22px;
+    background: var(--accent-gold);
+    color: #090B0E;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 800;
+}
+
+.user-dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-glass);
+    border-radius: var(--radius-card);
+    min-width: 220px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease;
+}
+
+.user-dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1.2rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.dropdown-item-link:hover {
+    background: var(--bg-card);
+    color: var(--accent-gold);
 }
 
 /* SWITCH DESLIZABLE VECTORIAL */
